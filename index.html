@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect a Sessão</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .success {
+            color: green;
+            margin-top: 20px;
+        }
+        .qr-code {
+            margin-top: 20px;
+        }
+        .loading {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Conecte a Sessão</h1>
+        <div id="qrcode" class="qr-code"></div>
+        <div id="message" class="success" style="display: none;">Sessão conectada com sucesso!</div>
+        <div id="loading" class="loading">Carregando...</div>
+    </div>
+
+    <script>
+        async function fetchQRCode() {
+            const response = await fetch('/qrcode');
+            const qrCodeData = await response.text();
+            if (qrCodeData.includes('img')) {
+                document.getElementById('qrcode').innerHTML = qrCodeData;
+                document.getElementById('loading').style.display = 'none';
+            } else {
+                document.getElementById('loading').style.display = 'block';
+            }
+        }
+
+        async function checkSessionStatus() {
+            const response = await fetch('/session-status');
+            if (response.ok) {
+                document.getElementById('message').style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function updatePage() {
+            fetchQRCode();
+            checkSessionStatus();
+        }
+
+        setInterval(updatePage, 5000); // Atualiza a cada 5 segundos
+        updatePage(); // Atualiza imediatamente ao carregar a página
+    </script>
+</body>
+</html>

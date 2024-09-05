@@ -1,0 +1,21 @@
+{
+  "name": "zap-ronaldo-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Ronaldo Medeiros",
+  "license": "ISC",
+  "dependencies": {
+    "@wppconnect-team/wppconnect": "^1.33.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "openai": "^4.38.2",
+    "puppeteer": "^22.6.5",
+    "qrcode": "^1.5.4"
+  }
+}

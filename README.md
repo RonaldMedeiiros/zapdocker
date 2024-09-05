@@ -30,7 +30,7 @@ COPY . .
 EXPOSE 3000
 
 CMD ["node", "index.js"]
-
+```
 Para construir a imagem Docker da aplicação, use o seguinte comando:
 
 ```bash

@@ -29,7 +29,7 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["node", "index.js"]
+CMD [ "bash", "-c", "if [ -f .env ]; then echo '.env já existe. Iniciando a aplicação...'; npm start; else echo '.env não encontrado. Criando o .env...'; node setupEnv.js && npm start; fi" ]
 ```
 Para construir a imagem Docker da aplicação, use o seguinte comando:
 
@@ -41,7 +41,7 @@ docker build -t zapdocker/teste-ronaldo .
 Após a construção da imagem, o container pode ser iniciado com o comando:
 
 ```bash
-docker run -d -p 3000:3000 --name teste-ronaldo-container zapdocker/teste-ronaldo
+docker run -it -p 3000:3000 --name teste-ronaldo-container zapdocker/teste-ronaldo
 ```
 Isso cria e executa o container com o nome teste-ronaldo-container, que estará acessível na porta 3000.
 

@@ -37,5 +37,5 @@ COPY . .
 # Expondo a porta que o app utiliza
 EXPOSE 3000
 
-# Comando para iniciar a aplicação (script que está no package.json)
-CMD [ "npm", "start" ]
+# Comando para verificar a existência do .env e executar o script para criá-lo, se necessário
+CMD [ "bash", "-c", "if [ -f .env ]; then echo '.env já existe. Iniciando a aplicação...'; npm start; else echo '.env não encontrado. Criando o .env...'; node setupEnv.js && npm start; fi" ]

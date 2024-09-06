@@ -20,7 +20,7 @@ wppconnect
         session: "minha-sessao",
         useChrome: true,
         catchQR: (base64Qrimg, asciiQR, attempts, urlCode) => {
-          qrCodeData = base64Qrimg; // Atualiza a variável qrCodeData
+          qrCodeData = base64Qrimg; 
           sessionData.urlCode = urlCode;
           return urlCode;
         },
@@ -36,14 +36,14 @@ wppconnect
         debug: false,
         logQR: true,
         browserWS: '',
-        autoClose: 120000, // Atualiza o QR code a cada 30 segundos
+        autoClose: 120000, 
         disableSpins: true,
         disableWelcome: true,
         updatesLog: true,
         persistentSession: true,
         sessionDataPath: SESSION_FILE_PATH,
         puppeteerOptions: {
-            args: ['--no-sandbox', '--disable-setuid-sandbox'] // Flags de segurança
+            args: ['--no-sandbox', '--disable-setuid-sandbox'] 
         }
       })
     .then((client) => start(client))
@@ -96,9 +96,8 @@ async function gptmsg(msg) {
 
 function start(client) {
   client.onMessage(async (message) => {
-      // Filtra para evitar enviar para listas de transmissão, status ou newsletters
       if (message.from === 'status@broadcast' || message.from.includes('@g.us') || message.from.includes('@broadcast') || message.from.includes('@newsletter')) {
-          return; // Ignora mensagens vindas do status, grupos ou listas de transmissão
+          return;
       }
 
       const gptResponse = await gptmsg(message);
@@ -111,7 +110,6 @@ function start(client) {
 
       setTimeout(async () => {
 
-          // Verifica se a mensagem de destino é para um contato individual
           if (message.from.endsWith('@c.us')) {
               client.sendText(message.from, gptResponse)
                   .then((result) => {
@@ -129,12 +127,10 @@ function start(client) {
   });
 }
 
-// Servir a página HTML
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-// Rota para verificar o status da sessão
 app.get('/session-status', (req, res) => {
     if (sessionConnected) {
         res.send('Sessão conectada com sucesso!');
@@ -143,7 +139,6 @@ app.get('/session-status', (req, res) => {
     }
 });
 
-// Configura a rota para exibir o QR code
 app.get('/qrcode', (req, res) => {
   if (qrCodeData) {
       res.send(`<img src="${qrCodeData}" alt="QR Code">`);
